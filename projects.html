@@ -1,1 +1,114 @@
+<!-- File: /projects.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects — Favour & Digi-tainment</title>
+  <style>
+    :root { --bg:#0e0e16; --fg:#f7f7fb; --muted:#a7a7b7; --accent1:#00c9ff; --accent2:#92fe9d; --card:#141323; --ring:rgba(255,255,255,.2); }
+    *{ box-sizing:border-box }
+    body{ margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Inter,Segoe UI,Roboto,Arial; background:radial-gradient(1200px 600px at 80% -10%, #1f1d35 0%, #0e0e16 60%); color:var(--fg); min-height:100svh; display:grid; grid-template-rows:auto 1fr auto; }
+    header{ padding:28px 18px 10px; text-align:center; }
+    header h1{ margin:0; font-size:clamp(22px,3.6vw,36px); letter-spacing:.04em; }
+    header p{ margin:8px 0 0; color:var(--muted); font-size:.95rem; }
+    main{ width:100%; max-width:1100px; margin:0 auto; padding:18px; display:grid; gap:16px; }
+    .card{ background:var(--card); border:1px solid var(--ring); border-radius:18px; box-shadow:0 12px 35px rgba(0,0,0,.35); overflow:hidden; }
+    .heading{ width:100%; display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; padding:18px; cursor:pointer; border:0; background:transparent; color:inherit; }
+    .heading:focus-visible{ outline:2px solid var(--accent1); outline-offset:3px; }
+    .title{ font-size:clamp(18px,2.8vw,28px); font-weight:800; letter-spacing:.04em; background:linear-gradient(90deg, var(--accent1), var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; text-align:left; }
+    .actions{ display:flex; gap:10px; align-items:center; }
+    .ext{ text-decoration:none; color:#000; background:linear-gradient(90deg,var(--accent1),var(--accent2)); padding:8px 12px; border-radius:999px; font-weight:700; font-size:12px; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+    .chev{ width:26px; height:26px; border-radius:999px; border:1px solid var(--ring); display:grid; place-items:center; transition:transform .22s ease; user-select:none; }
+    .card.open .chev{ transform:rotate(180deg); }
+    .panel{ display:grid; place-items:center; padding:0 0 18px; animation:fade .25s ease both; }
+    @keyframes fade{ from{ opacity:0; transform:translateY(-4px) } to{ opacity:1; transform:none } }
+    iframe{ width:min(92vw,1000px); height:min(70svh,620px); border:0; border-radius:14px; box-shadow:0 12px 36px rgba(0,0,0,.45); background:#0b0b12; }
+    footer{ text-align:center; padding:28px 18px; color:var(--muted); }
+    .back{ position:fixed; left:16px; top:16px; text-decoration:none; color:#000; background:linear-gradient(90deg,var(--accent1),var(--accent2)); padding:8px 12px; border-radius:999px; font-weight:700; font-size:12px; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← Back</a>
+
+  <header>
+    <h1>Interactive Projects</h1>
+    <p>Click a heading to open the live sketch. Use the external link to view the editor page.</p>
+  </header>
+
+  <main>
+    <!-- Design A -->
+    <section class="card" id="card-a">
+      <button class="heading" type="button" aria-controls="panel-a" aria-expanded="false">
+        <span class="title">Design A — Generative Sequence</span>
+        <span class="actions">
+          <a class="ext" href="https://editor.p5js.org/FavourB1/sketches/1an2-KFsj" target="_blank" rel="noopener">Open editor</a>
+          <span class="chev">⌄</span>
+        </span>
+      </button>
+      <div class="panel" id="panel-a" hidden></div>
+    </section>
+
+    <!-- Design B -->
+    <section class="card" id="card-b">
+      <button class="heading" type="button" aria-controls="panel-b" aria-expanded="false">
+        <span class="title">Design B — Motion Field</span>
+        <span class="actions">
+          <a class="ext" href="https://editor.p5js.org/FavourB1/sketches/8uUBG8QxM" target="_blank" rel="noopener">Open editor</a>
+          <span class="chev">⌄</span>
+        </span>
+      </button>
+      <div class="panel" id="panel-b" hidden></div>
+    </section>
+
+    <!-- Bonus -->
+    <section class="card" id="card-bonus">
+      <button class="heading" type="button" aria-controls="panel-bonus" aria-expanded="false">
+        <span class="title">Bonus — Alternate View</span>
+        <span class="actions">
+          <a class="ext" href="https://editor.p5js.org/FavourB1/full/r51HLeN-A" target="_blank" rel="noopener">Open full</a>
+          <span class="chev">⌄</span>
+        </span>
+      </button>
+      <div class="panel" id="panel-bonus" hidden></div>
+    </section>
+  </main>
+
+  <footer>© <span id="yr"></span> Favour • Digi-tainment</footer>
+
+  <script>
+    // why: only create iframes when opened to keep the page fast
+    const panels = [
+      { card:'#card-a', btn:'#card-a .heading', panel:'#panel-a', url:'https://editor.p5js.org/FavourB1/full/1an2-KFsj' },
+      { card:'#card-b', btn:'#card-b .heading', panel:'#panel-b', url:'https://editor.p5js.org/FavourB1/full/8uUBG8QxM' },
+      { card:'#card-bonus', btn:'#card-bonus .heading', panel:'#panel-bonus', url:'https://editor.p5js.org/FavourB1/full/r51HLeN-A' }
+    ];
+    panels.forEach(({card, btn, panel, url}) => {
+      const cardEl = document.querySelector(card);
+      const btnEl = document.querySelector(btn);
+      const panelEl = document.querySelector(panel);
+      btnEl.addEventListener('click', () => {
+        const open = !panelEl.hasAttribute('hidden');
+        // close others
+        document.querySelectorAll('.panel').forEach(p => {
+          p.setAttribute('hidden','');
+          p.previousElementSibling?.setAttribute?.('aria-expanded','false');
+          p.parentElement?.classList?.remove('open');
+          p.innerHTML = '';
+        });
+        if (open) return;
+        const iframe = document.createElement('iframe');
+        iframe.loading = 'eager';
+        iframe.title = 'p5 sketch';
+        iframe.src = url; // embeddable "full" URLs
+        panelEl.appendChild(iframe);
+        panelEl.removeAttribute('hidden');
+        btnEl.setAttribute('aria-expanded','true');
+        cardEl.classList.add('open');
+      });
+    });
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
 
