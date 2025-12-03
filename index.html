@@ -1,1 +1,61 @@
+<!-- File: /index.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Favour and Digi-tainment — Opening Art</title>
+    <meta name="description" content="3D opening art page built with p5.js (WEBGL).">
+    <style>
+      /* Layout: canvas as background layer */
+      html, body { height: 100%; margin: 0; }
+      body { background:#1f1d29; overflow:hidden; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+      #defaultCanvas0 { position: fixed; inset: 0; display:block; }
+
+      /* Header */
+      .hero {
+        position: fixed; inset: 0; pointer-events: none;
+        display:flex; align-items:center; justify-content:center; flex-direction:column;
+        text-align:center; padding: 24px;
+      }
+      .title {
+        letter-spacing: 0.06em;
+        font-weight: 800;
+        font-size: clamp(28px, 5vw, 72px);
+        line-height: 1.1;
+        color: #f5f5f7;
+        text-shadow: 0 8px 30px rgba(0,0,0,.55);
+        pointer-events: none;
+      }
+      .subtitle {
+        margin-top: 8px;
+        font-size: clamp(14px, 2.2vw, 20px);
+        color: #e7e7ea;
+        opacity: .9;
+        pointer-events: none;
+      }
+      .cta {
+        position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+        padding: 12px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25);
+        background: rgba(255,255,255,.08); color: #fff; text-decoration: none;
+        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+        font-weight: 600; letter-spacing: .02em;
+        box-shadow: 0 8px 26px rgba(0,0,0,.25);
+        transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      }
+      .cta:hover { transform: translateX(-50%) translateY(-2px); background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); }
+      .hint {
+        position: fixed; right: 14px; bottom: 10px; color: #d8d8df; opacity: .7; font-size: 12px; user-select: none;
+      }
+    </style>
+    <!-- p5.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+  </head>
+  <body>
+    <div class="hero" aria-hidden="true">
+      <div class="title">Favour and Digi-tainment</div>
+      <div class="subtitle">Opening Art • Interactive • WebGL</div>
+    </div>
+    <a class="cta" href="./" title="Enter your site">Enter Site</a>
+    <div class="hint">Drag: orbit • Scroll: zoom • Press <b>S</b> to reshuffle</div>
 
