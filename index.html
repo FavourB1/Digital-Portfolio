@@ -1,61 +1,202 @@
-<!-- File: /index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Favour and Digi-tainment — Opening Art</title>
-    <meta name="description" content="3D opening art page built with p5.js (Me).">
-    <style>
-      /* Layout: canvas as background layer */
-      html, body { height: 100%; margin: 0; }
-      body { background:#1f1d29; overflow:hidden; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; }
-      #defaultCanvas0 { position: fixed; inset: 0; display:block; }
-
-      /* Header */
-      .hero {
-        position: fixed; inset: 0; pointer-events: none;
-        display:flex; align-items:center; justify-content:center; flex-direction:column;
-        text-align:center; padding: 24px;
-      }
-      .title {
-        letter-spacing: 0.06em;
-        font-weight: 800;
-        font-size: clamp(28px, 5vw, 72px);
-        line-height: 1.1;
-        color: #f5f5f7;
-        text-shadow: 0 8px 30px rgba(0,0,0,.55);
-        pointer-events: none;
-      }
-      .subtitle {
-        margin-top: 8px;
-        font-size: clamp(14px, 2.2vw, 20px);
-        color: #e7e7ea;
-        opacity: .9;
-        pointer-events: none;
-      }
-      .cta {
-        position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
-        padding: 12px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25);
-        background: rgba(255,255,255,.08); color: #fff; text-decoration: none;
-        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-        font-weight: 600; letter-spacing: .02em;
-        box-shadow: 0 8px 26px rgba(0,0,0,.25);
-        transition: transform .15s ease, background .15s ease, border-color .15s ease;
-      }
-      .cta:hover { transform: translateX(-50%) translateY(-2px); background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); }
-      .hint {
-        position: fixed; right: 14px; bottom: 10px; color: #d8d8df; opacity: .7; font-size: 12px; user-select: none;
-      }
-    </style>
-    <!-- p5.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
-  </head>
-  <body>
-    <div class="hero" aria-hidden="true">
-      <div class="title">Favour and Digi-tainment</div>
-      <div class="subtitle"> Adventure • Interaction • Experience </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhD Research Manifesto</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/addons/p5.sound.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #1a1a2e;
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+      overflow: hidden;
+    }
+    #manifesto-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    #sketch-container {
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+    #detail-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 500px;
+      background: rgba(45, 45, 68, 0.9);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(100, 255, 255, 0.5);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.4s, visibility 0.4s;
+      z-index: 100;
+      pointer-events: none;
+    }
+    #detail-box.visible {
+      visibility: visible;
+      opacity: 1;
+    }
+    #detail-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #80ffdb;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #4a4a6b;
+      padding-bottom: 5px;
+    }
+    #detail-content {
+      font-size: 0.9em;
+      color: #c7f2ee;
+    }
+    /* Projects button */
+    .projects-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(90deg, #00c9ff, #92fe9d);
+      color: #000;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .projects-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div id="manifesto-container">
+    <div id="sketch-container"></div>
+    <div id="detail-box">
+      <div id="detail-title"></div>
+      <div id="detail-content"></div>
     </div>
-    <a class="cta" href="./" title="Enter your site">Enter Site</a>
-    <div class="hint">Drag: orbit • Scroll: zoom • Press <b>S</b> to reshuffle</div>
+  </div>
 
+  <!-- Button to go to the projects page -->
+  <a href="projects.html" class="projects-btn">View Projects →</a>
+
+  <script>
+    let researchAreas = [];
+    let detailBox, detailTitle, detailContent;
+    let currentHoverIndex = -1;
+
+    const COLOR_BG = [230, 25, 10];
+    const COLOR_ACCENT = [180, 80, 90];
+
+    function setup() {
+      createCanvas(700, 500).parent('sketch-container');
+      colorMode(HSB, 360, 100, 100);
+      noStroke();
+
+      detailBox = select('#detail-box');
+      detailTitle = select('#detail-title');
+      detailContent = select('#detail-content');
+
+      researchAreas = [
+        {
+          x: 200, y: 200, radius: 80, label: "Digital Media & HCI", 
+          details: "Analyzes platform algorithms and user behavior. Focus on UX Design, JS, and interactive media."
+        },
+        {
+          x: 500, y: 150, radius: 80, label: "Generative AI & Tech", 
+          details: "Specializes in critical making and leveraging GenAI for creative production."
+        },
+        {
+          x: 500, y: 350, radius: 80, label: "Culture & Literacy", 
+          details: "Researches how culture and digital literacy affect UX and design justice."
+        },
+        {
+          x: 800, y: 300, radius: 80, label: "Research", 
+          details: "Explores interdisciplinary communication across design and tech teams."
+        }
+      ];
+    }
+
+    function draw() {
+      background(COLOR_BG[0], COLOR_BG[1], COLOR_BG[2]);
+      let hoveredIndex = -1;
+
+      stroke(COLOR_ACCENT[0], 20, 50, 60);
+      strokeWeight(1);
+      for (let i = 0; i < researchAreas.length; i++) {
+        for (let j = i + 1; j < researchAreas.length; j++) {
+          line(
+            map(researchAreas[i].x, 0, 1000, 0, width),
+            map(researchAreas[i].y, 0, 500, 0, height),
+            map(researchAreas[j].x, 0, 1000, 0, width),
+            map(researchAreas[j].y, 0, 500, 0, height)
+          );
+        }
+      }
+      noStroke();
+
+      for (let i = 0; i < researchAreas.length; i++) {
+        let node = researchAreas[i];
+        let x = map(node.x, 0, 1000, 0, width);
+        let y = map(node.y, 0, 500, 0, height);
+        let d = dist(mouseX, mouseY, x, y);
+
+        if (d < node.radius) hoveredIndex = i;
+
+        let currentHue = map(i, 0, researchAreas.length, 140, 300);
+        let saturation = 60, brightness = 90, radiusScale = 1.0;
+
+        if (i === currentHoverIndex) {
+          saturation = 95;
+          brightness = 100;
+          radiusScale = 1.1 + sin(frameCount * 0.1) * 0.05;
+          drawingContext.shadowBlur = 20;
+          drawingContext.shadowColor = color(currentHue, saturation, brightness).toString();
+        } else {
+          drawingContext.shadowBlur = 0;
+        }
+
+        fill(currentHue, saturation, brightness, 90);
+        ellipse(x, y, node.radius * radiusScale, node.radius * radiusScale);
+        drawingContext.shadowBlur = 0;
+
+        fill(0, 0, 100);
+        textAlign(CENTER, CENTER);
+        textSize(16);
+        textStyle(BOLD);
+        text(node.label, x, y);
+      }
+
+      if (hoveredIndex !== -1) {
+        if (hoveredIndex !== currentHoverIndex) {
+          let node = researchAreas[hoveredIndex];
+          detailTitle.html(node.label);
+          detailContent.html(node.details);
+          detailBox.addClass('visible');
+          currentHoverIndex = hoveredIndex;
+        }
+      } else {
+        detailBox.removeClass('visible');
+        currentHoverIndex = -1;
+      }
+    }
+  </script>
+</body>
+</html>
